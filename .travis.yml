@@ -1,0 +1,19 @@
+# This file is part of imagebot.
+# https://github.com/fitnr/imagebotkitkit
+
+# Licensed under the MIT license:
+# http://opensource.org/licenses/GPL-3.0
+# Copyright (c) 2015, imagebot <fitnr@fakeisthenewreal>
+
+language: python
+
+python:
+    - 2.7
+    - 3.4
+    - pypy
+
+install:
+    - python setup.py install
+
+script:
+    - python setup.py test
