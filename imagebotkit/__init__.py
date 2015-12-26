@@ -8,6 +8,6 @@
 # http://opensource.org/licenses/GPL-3.0
 # Copyright (c) 2015, imagebot <fitnr@fakeisthenewreal>
 
-__version__ = '0.1.0'
-
 from . import imagebotkit
+
+__version__ = '0.1.0'

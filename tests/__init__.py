@@ -7,3 +7,5 @@
 # Licensed under the MIT license:
 # http://opensource.org/licenses/GPL-3.0
 # Copyright (c) 2015, imagebot <fitnr@fakeisthenewreal>
+
+from . import tests_ibk

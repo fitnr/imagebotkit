@@ -38,6 +38,7 @@ setup(
     ],
     packages=find_packages(),
     include_package_data=False,
+    test_suite='tests',
     install_requires=[
         'twitter_bot_utils>=0.9.7.1,<1'
     ],
