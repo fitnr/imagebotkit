@@ -16,35 +16,59 @@ from tweepy.error import TweepError
 
 VALID_IMAGE_EXTS = (
     '.jpg',
+    '.jpeg',
     '.gif',
     '.png',
     '.webp'
 )
 
+try:
+    basestring
+except NameError:
+    basestring = str
+
 def valid_image(filename):
     return os.path.splitext(filename)[1] in VALID_IMAGE_EXTS
 
-def pick_image(fileglobs, count=None, record=None):
-    count = count or 1
-
+def past_posts(record):
     past_images = set()
-    prospectives = set()
-
     if record and os.path.exists(record):
         with open(record) as f:
-            past_images = set(x.trim() for x in f.readlines())
+            past_images = set(x.strip() for x in f.readlines())
+
+    return past_images
+
+
+def pick_image(fileglobs, count=None, record=None):
+    '''
+    :fileglobs list paths or globs
+    :count int Number of paths to return. Default: 1
+    :record str Name of file containing paths to exclude
+    '''
+    count = count or 1
+
+    past_images = past_posts(record)
+    prospectives = set()
+    if isinstance(fileglobs, basestring):
+        fileglobs = (fileglobs,)
 
     for globule in fileglobs:
         globule = os.path.expandvars(os.path.expanduser(globule))
-        for path in glob(globule):
-            for dirpath, _, filenames in walk(path):
-                prospectives.update(os.path.join(dirpath, fn) for fn in filenames if valid_image(fn))
+
+        if os.path.isfile(globule):
+            prospectives.update([globule])
+
+        else:
+            for path in glob(globule):
+                for dirpath, _, files in walk(path):
+                    images = (os.path.join(dirpath, fn) for fn in files if valid_image(fn))
+                    prospectives.update(images)
 
     prospectives = prospectives.difference(past_images)
 
     possibles = sorted(list(prospectives), key=lambda _: random())
 
-    return possibles[1:count]
+    return possibles[0:count]
 
 def post_images(api, paths):
     media_ids = []
@@ -52,8 +76,9 @@ def post_images(api, paths):
     for path in paths:
         try:
             media = api.media_upload(path)
+            print(media)
         except TweepError:
-            continue
+            raise
 
         media_ids.append(media.media_id_string)
 
@@ -61,5 +86,4 @@ def post_images(api, paths):
 
 def update_record(image_paths, record):
     with open(record, 'a') as f:
-        for i in image_paths:
-            f.write(i + linesep)
+        f.writelines((i + linesep for i in image_paths))
