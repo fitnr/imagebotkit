@@ -18,6 +18,7 @@ env/
 bin/
 build/
 develop-eggs/
+.eggs
 dist/
 eggs/
 lib/
@@ -43,3 +44,5 @@ coverage.xml
 
 # Sphinx documentation
 docs/_build/
+
+README.rst

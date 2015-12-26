@@ -10,11 +10,16 @@
 
 from setuptools import setup, find_packages
 
+try:
+    readme = open('./README.rst', 'r').read()
+except IOError:
+    readme = ''
+
 setup(
     name='imagebot',
     version='0.1.0',
     description='Kit for a simple bot that uploads images to twitter',
-    long_description=open('README.md').read(),
+    long_description=readme,
     keywords='twitter bot image',
     author='imagebot',
     author_email='fitnr@fakeisthenewreal',
