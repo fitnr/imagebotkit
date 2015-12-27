@@ -15,10 +15,11 @@ python:
     - pypy
 
 before_install:
-    - pip install docutils
+    - pip install coverage docutils
 
 install:
     - make install
 
 script:
-    - make test
+    - coverage run --include=imagebotkit/* setup.py test
+    - coverage report
