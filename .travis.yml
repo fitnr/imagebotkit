@@ -14,6 +14,9 @@ python:
     - 3.5
     - pypy
 
+before_install:
+    - pip install docutils
+
 install:
     - make install
 
