@@ -2,7 +2,7 @@
 
 Create a bot that post images (and video) to Twitter.
 
-````python
+````bash
 # Update Twitter with 'image.png'
 imagebot screen_name image.png --status "Hello World!"
 
